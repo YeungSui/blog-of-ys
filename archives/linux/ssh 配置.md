@@ -51,7 +51,7 @@ strace -e trace=file /usr/sbin/sshd |& grpe '^openat' | grep sshd_config
 2. github ssh 无法通过类似 ssh -i 这样指定私钥，默认使用 ~/.ssh/id_rsa，这时候有几种方法可以指定私钥文件：
     - 修改 git 内置变量 core.sshCommand 来更改默认的 ssh 连接命令  
     见 https://stackoverflow.com/questions/4565700/how-to-specify-the-private-ssh-key-to-use-when-executing-shell-command-on-git/38474137#38474137
-    - ``ssh-agent bash -c 'ssh-add /path/to/private/key; git ...'`` 需要了解 ssh-agent 的原理，粗略看了下，应该是 ssh-agent 新建一个 shell 之类，然后将 ssh-add 添加的 key 设置为了默认 key，后面的脚本命令执行用到 ssh 时会通过 ssh-agent 做身份验证和连接
+    - ``ssh-agent bash -c 'ssh-add /path/to/private/key; git ...'`` 需要了解 ssh-agent 的原理，粗略看了下，应该是 ssh-agent 新建一个 shell 之类，然后将 ssh-add 添加的 key 都作为候选 key，后面的脚本命令执行用到 ssh 时会通过 ssh-agent 做身份验证和连接
     - 创建（修改）配置文件 ~/.ssh/config，添加如下内容
         ```
         Host gitremote
